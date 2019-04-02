@@ -2,6 +2,7 @@ import numpy as np
 import flask
 import pickle
 from flask import Flask, render_template, request
+import cloudstorage as gcs
 
 app=Flask(__name__)
 
@@ -13,7 +14,8 @@ def index():
 
 def ValuePredictor(to_predict_list):
     to_predict = np.array(to_predict_list).reshape(1,12)
-    loaded_model = pickle.load(open("https://console.cloud.google.com/storage/browser/modeldeployment/model.pkl","rb"))
+    gcs_file = gcs.open("https://console.cloud.google.com/storage/browser/modeldeployment/model.pkl")
+    loaded_model = pickle.load(open(gcs_file,"rb"))
     result = loaded_model.predict(to_predict)
     return result[0]
 
