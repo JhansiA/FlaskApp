@@ -14,7 +14,7 @@ def index():
 
 def ValuePredictor(to_predict_list):
     to_predict = np.array(to_predict_list).reshape(1,12)
-    gcs_file = gcs.open("https://console.cloud.google.com/storage/browser/modeldeployment/model.pkl")
+    gcs_file = gcs.open("/modeldeployment/model.pkl")
     loaded_model = pickle.load(open(gcs_file,"rb"))
     result = loaded_model.predict(to_predict)
     return result[0]
